@@ -1,11 +1,13 @@
 {% ckan_extends %}
 
-
-
-
 {% block header_site_navigation_tabs %}
-{{super()}}
-<li><a href="/apps">Applications</a></li>
+{{ h.build_nav_main(
+                ('search', _('Datasets')),
+                ('organizations_index', _('Organizations')),
+                ('group_index', _('Groups')),
+                ('about', _('About')),
+		('apps', _('Applications'))
+              ) }}
 {% endblock %}
 
 
