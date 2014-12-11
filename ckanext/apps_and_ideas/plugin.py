@@ -1,0 +1,22 @@
+import ckan.plugins as plugins
+import ckan.plugins.toolkit as toolkit
+
+
+
+class AppsAndIdeasPlugin(plugins.SingletonPlugin):
+    controller = 'ckanext.apps_and_ideas.related:RelatedController'
+    '''An example theme plugin.
+
+    '''
+    plugins.implements(plugins.IConfigurer)
+    plugins.implements(plugins.IRoutes, inherit=True)
+
+    def update_config(self, config):
+	toolkit.add_template_directory(config, 'templates')
+	toolkit.add_public_directory(config, 'public')
+
+    def before_map(self, map):
+	map.connect('/apps', action='dashboard', controller='ckanext.apps_and_ideas.apps:AppsController')
+	
+	return map
+	 
