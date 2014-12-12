@@ -16,7 +16,9 @@ class AppsAndIdeasPlugin(plugins.SingletonPlugin):
 	toolkit.add_public_directory(config, 'public')
 
     def before_map(self, map):
-	map.connect('/apps', action='dashboard', controller='ckanext.apps_and_ideas.apps:AppsController')
-	
+	map.connect('apps','/apps', action='dashboard', controller='ckanext.apps_and_ideas.apps:AppsController')
+	map.connect('apps_search','/apps/search', action='search', controller='ckanext.apps_and_ideas.apps:AppsController')
+	map.connect('app_page','/apps/detail', action='detail', controller='ckanext.apps_and_ideas.apps:AppsController')
+
 	return map
 	 

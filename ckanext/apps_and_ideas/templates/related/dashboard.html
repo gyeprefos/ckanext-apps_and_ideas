@@ -3,20 +3,47 @@
 {% set page = c.page %}
 
 
-{% block subtitle %}{{ _('Apps') }}{% endblock %}
+{% block subtitle %}
+	{% if c.controller == 'ckanext.apps_and_ideas.apps:AppsController' %}
+		{{ _('Apps') }}
+	{% else %}
+		{{ _('Apps & Ideas') }}
+	{% endif %}
+{% endblock %}
 
 {% block breadcrumb_content %}
-  <li>{{ _('Applications') }}</li>
-
+	{% if c.controller == 'ckanext.apps_and_ideas.apps:AppsController' %}
+		<li>{{ _('Applications') }}</li>
+	{% else %}
+		<li>{{ _('Apps & Ideas') }}</li>
+	{% endif %}
 {% endblock %}
+
 
 {% block primary_content %}
   <article class="module">
     <div class="module-content">
       <h1 class="page-heading">
-        {% block page_heading %}{{ _('Apps') }}{% endblock %}
-      </h1>
+        {% block page_heading %}
+		{% if c.controller == 'ckanext.apps_and_ideas.apps:AppsController' %}
+			{{ _('Applications') }}
 	
+		{% else %}
+			{{ _('Apps & Ideas') }}
+		{% endif %}
+
+	{% endblock %}
+      </h1>
+{% if c.controller == 'ckanext.apps_and_ideas.apps:AppsController' %}
+	<form class="section site-search simple-input" action="/apps/search" method="get">
+          <div class="field">
+            <label for="field-sitewide-search">Search Applications</label>
+            <input id="field-sitewide-search" type="text" name="app_name" placeholder="{% if c.name == "" %}Search{%else%}{{c.name}}{%endif%}" />
+            <button class="btn-search" type="submit"><i class="icon-search"></i></button>
+          </div>
+	</form>
+</form>{% endif %}
+
       {% block related_items %}
 	
 
@@ -39,7 +66,7 @@
     </div>
 
     {% block page_pagination %}
-      {{ super() }}
+      {{ page.pager() }}
     {% endblock %}
   </article>
 {% endblock %}
@@ -68,7 +95,7 @@
 
         <label for="field-type">{{ _('Filter by type') }}</label>
         <select id="field-type" name="type">
-          <option value="application">{{ _('Applications') }}</option>
+          <option value="">{{ _('Default') }}</option>
           {% for option in c.type_options %}
             <option value="{{ option.value }}"{% if c.filters.type == option.value %} selected="selected"{% endif %}>{{ option.text or option.value }}</option>
           {% endfor %}
@@ -97,6 +124,7 @@
 	      </div>
     </form>
   </section>
-{% endblock %}
 
+{% endblock %}
+ 
 
